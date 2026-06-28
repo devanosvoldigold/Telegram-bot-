@@ -5,9 +5,6 @@ from game.roles import assign_roles, get_role
 from game.winner import check_winner
 
 
-# ==========================
-# CREATE GAME
-# ==========================
 
 async def create_game(update, context):
     if game.started:
@@ -37,9 +34,6 @@ async def create_game(update, context):
     )
 
 
-# ==========================
-# JOIN GAME
-# ==========================
 
 async def join_game(update, context):
     if game.host is None:
@@ -71,9 +65,6 @@ async def join_game(update, context):
     )
 
 
-# ==========================
-# LEAVE GAME
-# ==========================
 
 async def leave_game(update, context):
     if game.host is None:
@@ -113,9 +104,6 @@ async def leave_game(update, context):
     )
 
 
-# ==========================
-# START GAME
-# ==========================
 
 async def start_game(update, context):
     if game.started:
@@ -171,9 +159,6 @@ async def start_game(update, context):
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
     
-# ==========================
-# SEND WOLF MENU
-# ==========================
 
 async def send_wolf_menu(context):
     from game.roles import get_wolf
@@ -203,9 +188,6 @@ async def send_wolf_menu(context):
         pass
 
 
-# ==========================
-# CAST VOTE
-# ==========================
 
 async def cast_vote(update, context):
     query = update.callback_query
@@ -236,9 +218,6 @@ async def cast_vote(update, context):
     )
 
 
-# ==========================
-# WOLF KILL
-# ==========================
 
 async def wolf_kill(update, context):
     from game.roles import get_wolf
@@ -271,9 +250,6 @@ async def wolf_kill(update, context):
     )
 
 
-# ==========================
-# COUNT VOTES
-# ==========================
 
 def get_voted_player():
     if not game.votes:
@@ -303,9 +279,6 @@ from game.roles import (
 )
 
 
-# ==========================
-# END ROUND
-# ==========================
 
 async def end_round(context):
     voted_player = get_voted_player()
@@ -324,7 +297,7 @@ async def end_round(context):
     else:
         message += "🗳 Nobody was voted out.\n"
 
-    # Wolf kill
+
     if (
         game.wolf_target is not None
         and game.wolf_target in game.alive
@@ -358,7 +331,6 @@ async def end_round(context):
     game.votes.clear()
     game.wolf_target = None
 
-    # Voting keyboard
     keyboard = []
 
     for player in game.alive:
@@ -381,9 +353,6 @@ async def end_round(context):
     await send_wolf_menu(context)
 
 
-# ==========================
-# RESET GAME
-# ==========================
 
 def reset_game():
     if game.timer_task:
